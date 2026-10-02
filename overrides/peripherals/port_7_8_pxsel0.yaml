@@ -1,0 +1,110 @@
+# Add individual 'Port 7' and 'Port 8' register blocks. Uses 2-bit function select PxSELn registers.
+_add:
+  P7:
+    description: Port 7
+    baseAddress: 544
+    registers:
+        P7IN:
+          size: 8
+          addressOffset: 0
+          description: Port 7 Input register
+          fields:
+            P7IN:
+              description: P7IN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P7OUT:
+          size: 8
+          addressOffset: 2
+          description: Port 7 Output register
+          fields:
+            P7OUT:
+              description: P7OUT
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P7DIR:
+          size: 8
+          addressOffset: 4
+          description: Port 7 Direction register
+          fields:
+            P7DIR:
+              description: P7DIR
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P7REN:
+          size: 8
+          addressOffset: 6
+          description: Port 7 Resistor Enable register
+          fields:
+            P7REN:
+              description: P7REN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P7SEL0:
+          size: 8
+          addressOffset: 10
+          description: Port 7 Selection register bit 0
+          fields:
+            P7SEL0:
+              description: P7SEL0
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+  P8:
+    description: Port 8
+    baseAddress: 544
+    registers:
+        P8IN:
+          size: 8
+          addressOffset: 1
+          description: Port 8 Input register
+          fields:
+            P8IN:
+                description: P8IN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P8OUT:
+          size: 8
+          addressOffset: 3
+          description: Port 8 Output register
+          fields:
+            P8OUT:
+                description: P8OUT
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P8DIR:
+          size: 8
+          addressOffset: 5
+          description: Port 8 Direction register
+          fields:
+            P8DIR:
+                description: P8DIR
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P8REN:
+          size: 8
+          addressOffset: 7
+          description: Port 8 Resistor Enable register
+          fields:
+            P8REN:
+                description: P8REN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P8SEL0:
+          size: 8
+          addressOffset: 11
+          description: Port 8 Selection register bit 0
+          fields:
+            P8SEL0:
+                description: P8SEL0
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]

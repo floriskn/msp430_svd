@@ -1,0 +1,110 @@
+# Add individual 'Port 5' and 'Port 6' register blocks. Uses 2-bit function select PxSELn registers.
+_add:
+  P5:
+    description: Port 5
+    baseAddress: 544
+    registers:
+        P5IN:
+          size: 8
+          addressOffset: 0
+          description: Port 5 Input register
+          fields:
+            P5IN:
+              description: P5IN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P5OUT:
+          size: 8
+          addressOffset: 2
+          description: Port 5 Output register
+          fields:
+            P5OUT:
+              description: P5OUT
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P5DIR:
+          size: 8
+          addressOffset: 4
+          description: Port 5 Direction register
+          fields:
+            P5DIR:
+              description: P5DIR
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P5REN:
+          size: 8
+          addressOffset: 6
+          description: Port 5 Resistor Enable register
+          fields:
+            P5REN:
+              description: P5REN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P5SEL0:
+          size: 8
+          addressOffset: 10
+          description: Port 5 Selection register bit 0
+          fields:
+            P5SEL0:
+              description: P5SEL0
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+  P6:
+    description: Port 6
+    baseAddress: 544
+    registers:
+        P6IN:
+          size: 8
+          addressOffset: 1
+          description: Port 6 Input register
+          fields:
+            P6IN:
+                description: P6IN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P6OUT:
+          size: 8
+          addressOffset: 3
+          description: Port 6 Output register
+          fields:
+            P6OUT:
+                description: P6OUT
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P6DIR:
+          size: 8
+          addressOffset: 5
+          description: Port 6 Direction register
+          fields:
+            P6DIR:
+                description: P6DIR
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P6REN:
+          size: 8
+          addressOffset: 7
+          description: Port 6 Resistor Enable register
+          fields:
+            P6REN:
+                description: P6REN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P6SEL0:
+          size: 8
+          addressOffset: 11
+          description: Port 6 Selection register bit 0
+          fields:
+            P6SEL0:
+                description: P6SEL0
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]

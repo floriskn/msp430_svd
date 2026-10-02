@@ -802,3 +802,10 @@ SYS:
                 PASSWORD: [0x96, "Value always read from the SYSCFG0 password field"]
             _write:
                 PASSWORD: [0xA5, "Value which must be written to the SYSCFG0 password field"]
+
+SFR:
+    SFRIFG1:
+        OFIFG:
+            _replace_enum:
+                OFIFG_0: [0, "No interrupt pending"]
+                OFIFG_1: [1, "Interrupt pending"]

@@ -1,0 +1,110 @@
+# Add individual 'Port 3' and 'Port 4' register blocks. Uses 2-bit function select PxSELn registers.
+_add:
+  P3:
+    description: Port 3
+    baseAddress: 544
+    registers:
+        P3IN:
+          size: 8
+          addressOffset: 0
+          description: Port 3 Input register
+          fields:
+            P3IN:
+              description: P3IN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P3OUT:
+          size: 8
+          addressOffset: 2
+          description: Port 3 Output register
+          fields:
+            P3OUT:
+              description: P3OUT
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P3DIR:
+          size: 8
+          addressOffset: 4
+          description: Port 3 Direction register
+          fields:
+            P3DIR:
+              description: P3DIR
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P3REN:
+          size: 8
+          addressOffset: 6
+          description: Port 3 Resistor Enable register
+          fields:
+            P3REN:
+              description: P3REN
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+        P3SEL0:
+          size: 8
+          addressOffset: 10
+          description: Port 3 Selection register bit 0
+          fields:
+            P3SEL0:
+              description: P3SEL0
+              bitOffset: 0
+              bitWidth: 8
+              _write_constraint: [0, 0xff]
+  P4:
+    description: Port 4
+    baseAddress: 544
+    registers:
+        P4IN:
+          size: 8
+          addressOffset: 1
+          description: Port 4 Input register
+          fields:
+            P4IN:
+                description: P4IN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P4OUT:
+          size: 8
+          addressOffset: 3
+          description: Port 4 Output register
+          fields:
+            P4OUT:
+                description: P4OUT
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P4DIR:
+          size: 8
+          addressOffset: 5
+          description: Port 4 Direction register
+          fields:
+            P4DIR:
+                description: P4DIR
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P4REN:
+          size: 8
+          addressOffset: 7
+          description: Port 4 Resistor Enable register
+          fields:
+            P4REN:
+                description: P4REN
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
+        P4SEL0:
+          size: 8
+          addressOffset: 11
+          description: Port 4 Selection register bit 0
+          fields:
+            P4SEL0:
+                description: P4SEL0
+                bitOffset: 0
+                bitWidth: 8
+                _write_constraint: [0, 0xff]
