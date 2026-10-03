@@ -18,8 +18,34 @@ _include:
   - "../peripherals/sys_irmsel_enum.yaml"
   - "../peripherals/cs_fll_enums.yaml"
   - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
+  - "../peripherals/undocumented_fields.yaml"
+
+# The device file has port J, which the data sheet doesn't list (SLASEO7C Table 9-40 to Table 9-42, p. 75
+# to p. 77: ports P1 to P6)
+_delete:
+  - PJ
+
+# The backup memory is BAKMEM in the user's guide (SLAU445I 7, p. 309; SLAU445I Table 7-1, p. 310) and in
+# the data sheet (SLASEO7C Table 9-54, p. 81)
+_modify:
+  BKMEM:
+    name: BAKMEM
+    description: BAKMEM
+
+# The PxIV interrupt vector fields cover the whole register (SLAU445I Table 8-5 to Table 8-8, p. 332 to
+# p. 333)
+"P1,P2,P3,P4,P5,P6":
+  "P?IV":
+    _modify:
+      "P?IV":
+        bitWidth: 16
 
 SYS:
+  # SYNCSEL, the CapTIvate trigger selection of SLAU445I Table 1-30, p. 81, isn't on this device: the data
+  # sheet doesn't name it, and the device has no CapTIvate
+  SYSCFG1:
+    _delete:
+      - SYNCSEL
   SYSSNIV:
     SYSSNIV:
       _replace_enum:

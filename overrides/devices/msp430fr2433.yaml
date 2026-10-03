@@ -15,17 +15,19 @@ _include:
    - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
    - "../peripherals/pmm_lpm5_switch_enums.yaml"
 
-# The SPI mode registers move into the eUSCI peripherals below, as on the other devices
+# The SPI mode registers move into the eUSCI peripherals below, as on the other devices. PORT_1_2 has the
+# registers of P1 and P2 (from port_1_2_pxseln.yaml) again, with a field per bit, which the user's guide
+# doesn't have (PxIN and so on are one field: SLAU445I Table 8-9 to Table 8-18, p. 334 to p. 337), and
+# MPY_32's registers move into MPY32 below.
 _delete:
    - USCI_A0_SPI_MODE
    - USCI_A1_SPI_MODE
    - USCI_B0_SPI_MODE
+   - PORT_1_2
+   - MPY_32
 
 # Rename to match user guide, and the peripheral names of the other MSP430FR2xx devices
 _modify:
-    PORT_1_2:
-        name: PA
-        description: Port A
     PORT_3:
         name: P3
     FRAM:
@@ -40,9 +42,15 @@ _modify:
     REAL_TIME_CLOCK:
         name: RTC
         description: RTC
+    # BAKMEM: SLAU445I 7, p. 309; SLAU445I Table 7-1, p. 310; SLASE59F Table 6-43, p. 68
     BACKUP_MEMORY:
-        name: BKMEM
-        description: BKMEM
+        name: BAKMEM
+        description: BAKMEM
+    # One MPY32, as in the user's guide (SLAU445I Table 16-7, p. 438) and the data sheet (SLASE59F
+    # Table 6-39, p. 66: "MPY32 Registers (Base Address: 04C0h)"), instead of MPY_16 and MPY_32
+    MPY_16:
+        name: MPY32
+        description: MPY32
     TIMER_0_A3:
         name: TA0
         description: TA0
@@ -196,6 +204,10 @@ PMM:
             ENABLED:  [1, "SVSH is always enabled."]
 
 FRCTL:
+    # ACCTEIE isn't in GCCTL0 (SLAU445I Table 6-3, p. 307), and the data sheet doesn't name it
+    GCCTL0:
+        _delete:
+            - ACCTEIE
     FRCTL0:
         # Add missing password field (its values are in frctl.yaml)
         _add:
@@ -205,6 +217,26 @@ FRCTL:
                 bitWidth: 8
 
 P3:
+    # One field per register, named as in the user's guide (PxIN, PxOUT, PxDIR, PxREN, PxSEL0 and PxSEL1:
+    # SLAU445I Table 8-9 to Table 8-14, p. 334 to p. 335), as P1 and P2 have, instead of one per bit
+    P3IN:
+        _merge:
+            P3IN: "P3IN?"
+    P3OUT:
+        _merge:
+            P3OUT: "P3OUT?"
+    P3DIR:
+        _merge:
+            P3DIR: "P3DIR?"
+    P3REN:
+        _merge:
+            P3REN: "P3REN?"
+    P3SEL0:
+        _merge:
+            P3SEL0: "P3SEL0_?"
+    P3SEL1:
+        _merge:
+            P3SEL1: "P3SEL1_?"
     _add:
         P3SELC:
           size: 8
@@ -272,8 +304,72 @@ ADC:
             "/64": [2, "Predivide by 64"]
             "ADCPDIV_3": [3, "Reserved"]
 
-MPY_16:
+# The registers of the device file's MPY_32, at their offsets from 04C0h (SLAU445I Table 16-7, p. 438)
+MPY32:
+    _add:
+        MPY32L:
+            description: 32-bit operand 1 - multiply - low word
+            addressOffset: 0x10
+            size: 16
+        MPY32H:
+            description: 32-bit operand 1 - multiply - high word
+            addressOffset: 0x12
+            size: 16
+        MPYS32L:
+            description: 32-bit operand 1 - signed multiply - low word
+            addressOffset: 0x14
+            size: 16
+        MPYS32H:
+            description: 32-bit operand 1 - signed multiply - high word
+            addressOffset: 0x16
+            size: 16
+        MAC32L:
+            description: 32-bit operand 1 - multiply accumulate - low word
+            addressOffset: 0x18
+            size: 16
+        MAC32H:
+            description: 32-bit operand 1 - multiply accumulate - high word
+            addressOffset: 0x1A
+            size: 16
+        MACS32L:
+            description: 32-bit operand 1 - signed multiply accumulate - low word
+            addressOffset: 0x1C
+            size: 16
+        MACS32H:
+            description: 32-bit operand 1 - signed multiply accumulate - high word
+            addressOffset: 0x1E
+            size: 16
+        OP2L:
+            description: 32-bit operand 2 - low word
+            addressOffset: 0x20
+            size: 16
+        OP2H:
+            description: 32-bit operand 2 - high word
+            addressOffset: 0x22
+            size: 16
+        RES0:
+            description: 32x32-bit result 0 - least significant word
+            addressOffset: 0x24
+            size: 16
+        RES1:
+            description: 32x32-bit result 1
+            addressOffset: 0x26
+            size: 16
+        RES2:
+            description: 32x32-bit result 2
+            addressOffset: 0x28
+            size: 16
+        RES3:
+            description: 32x32-bit result 3 - most significant word
+            addressOffset: 0x2A
+            size: 16
     MPY32CTL0:
+        # MPYOP1_32 and MPYOP2_32 (SLAU445I Table 16-9, p. 440)
+        _modify:
+            OP1_32:
+                name: MPYOP1_32
+            OP2_32:
+                name: MPYOP2_32
         MPYM:
           _replace_enum:
             "MPY": [0, "MPY  Multiply"]

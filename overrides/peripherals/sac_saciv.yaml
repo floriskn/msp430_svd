@@ -1,0 +1,7 @@
+# The SACxIV interrupt vector field is SACIV (SLAU445I Table 20-11, p. 537: "SACIVx", where x marks a
+# multi-bit field, as in UCIVx and ADCIVx), not SACIV0 to SACIV3 after the instance
+"SAC?":
+  "SAC?IV":
+    _modify:
+      "SACIV?":
+        name: SACIV
