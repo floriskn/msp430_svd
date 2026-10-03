@@ -16,6 +16,8 @@ _include:
   - "../peripherals/tlv_enhanced_ref.yaml"
   - "../peripherals/adc_enums.yaml"
   - "../peripherals/sys_irmsel_enum.yaml"
+  - "../peripherals/cs_fll_enums.yaml"
+  - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
 
 SYS:
   SYSSNIV:
@@ -90,3 +92,19 @@ SYS:
           value: 61
       SYSNMI:
           value: 62
+
+# The LPM3.5 switch is only on other devices (LPM5SM, LPM5SW: "Only available in the FR203x, FR211x, FR2100,
+# FR2000, FR231x, FR2433, FR2422, FR263x, FR253x, FR252x, and FR413x devices", SLAU445I Table 2-7), and
+# FRLPMPWR "always reads as 0 after reset" on devices not in that list (SLAU445I Table 6-3). On an
+# MSP430FR2476 neither LPM5SM nor FRLPMPWR can be set.
+PMM:
+  PM5CTL0:
+    _delete:
+      - LPM5SM
+      - LPM5SW
+
+FRCTL:
+  GCCTL0:
+    _modify:
+      FRLPMPWR:
+        access: read-only

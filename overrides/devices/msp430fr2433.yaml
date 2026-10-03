@@ -11,6 +11,9 @@ _include:
    - "../peripherals/tlv_basic_ref.yaml"
    - "../peripherals/adc_enums.yaml"
    - "../peripherals/sys_irmsel_enum.yaml"
+   - "../peripherals/cs_fll_enums.yaml"
+   - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
+   - "../peripherals/pmm_lpm5_switch_enums.yaml"
 
 # The SPI mode registers move into the eUSCI peripherals below, as on the other devices
 _delete:

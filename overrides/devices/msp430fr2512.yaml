@@ -15,6 +15,9 @@ _include:
   - "../peripherals/tlv_basic_ref.yaml"
   - "../peripherals/adc_enums.yaml"
   - "../peripherals/sys_irmsel_enum.yaml"
+  - "../peripherals/cs_fll_enums.yaml"
+  - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
+  - "../peripherals/pmm_lpm5_switch_enums.yaml"
 
 # Interrupt vector numbers: the vector table ends at FFFEh (SLASEE4C Table 6-2)
 "_INTERRUPTS":

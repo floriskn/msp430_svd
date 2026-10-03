@@ -37,3 +37,9 @@ FRCTL:
       _write:
         PASSWORD: [0xA5, "Unlocks the FRAM controller registers"]
         LOCK: [0x00, "Locks the FRAM controller registers again"]
+  # FRAM power control (SLAU445I 6.8 and Table 6-3)
+  GCCTL0:
+    FRPWR:
+      _replace_enum:
+        DISABLED: [0, "FRAM power supply disabled"]
+        ENABLED: [1, "FRAM power supply enabled"]
