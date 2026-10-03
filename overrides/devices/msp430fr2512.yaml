@@ -1,0 +1,170 @@
+_svd: ../../msp430fr2512.svd
+
+_include:
+  - "../peripherals/usci_a0_spi_ucbusy.yaml"
+  - "../peripherals/usci_b0_spi_ucbusy.yaml"
+  - "../peripherals/pmmctl_pmmpw_enum.yaml"
+  - "../peripherals/pmmctl0_h.yaml"
+  - "../peripherals/pmmctl0_svshe_enum.yaml"
+  - "../peripherals/frctl.yaml"
+  - "../peripherals/wdt_a_wdtpw_enum.yaml"
+  - "../peripherals/sys_frwppw_enum.yaml"
+  - "../peripherals/sfr_sysflte.yaml"
+  - "../peripherals/crc.yaml"
+  - "../peripherals/cs_write_constraints.yaml"
+  - "../peripherals/tlv_basic_ref.yaml"
+  - "../peripherals/adc_enums.yaml"
+  - "../peripherals/sys_irmsel_enum.yaml"
+
+# Interrupt vector numbers: the vector table ends at FFFEh (SLASEE4C Table 6-2)
+"_INTERRUPTS":
+  _modify:
+    _interrupts:
+      CAPTIVATE:
+          value: 49
+      PORT2:
+          value: 50
+      PORT1:
+          value: 51
+      ADC:
+          value: 52
+      EUSCI_B0:
+          value: 53
+      EUSCI_A0:
+          value: 54
+      WDT:
+          value: 55
+      RTC:
+          value: 56
+      TIMER1_A1:
+          value: 57
+      TIMER1_A0:
+          value: 58
+      TIMER0_A1:
+          value: 59
+      TIMER0_A0:
+          value: 60
+      UNMI:
+          value: 61
+      SYSNMI:
+          value: 62
+
+# The DSLite file lists the CAPTIVATE interrupt registers twice, the second time as an alternate of
+# itself, which svd2rust turns into duplicate accessors. Keep one of each.
+CAPTIVATE:
+  _delete:
+    - CAPIE
+    - CAPIFG
+    - CAPIV
+  _add:
+    CAPIE:
+      description: Captivate Interrupt Enable Register
+      addressOffset: 0x00
+      size: 16
+      fields:
+        EOCIEN:
+          description: End of conversion interrupt enable
+          bitOffset: 0
+          bitWidth: 1
+          access: read-write
+        CAPDTCTIEN:
+          description: Captivate detection interrupt enable
+          bitOffset: 1
+          bitWidth: 1
+          access: read-write
+        CAPTIEN:
+          description: Captivate Timer interrupt enable
+          bitOffset: 2
+          bitWidth: 1
+          access: read-write
+        CAPCNTRIEN:
+          description: Captivate Conversion Counter interrupt enable
+          bitOffset: 3
+          bitWidth: 1
+          access: read-write
+        CAPMAXIEN:
+          description: Captivate maximum count interrupt enable
+          bitOffset: 8
+          bitWidth: 1
+          access: read-write
+    CAPIFG:
+      description: Captivate Interrupt Flag Register
+      addressOffset: 0x02
+      size: 16
+      fields:
+        EOCIFG:
+          description: End of conversion interrupt flag
+          bitOffset: 0
+          bitWidth: 1
+          access: read-write
+        CAPDTCTIFG:
+          description: Captivate detection interrupt flag
+          bitOffset: 1
+          bitWidth: 1
+          access: read-write
+        CAPTIFG:
+          description: Captivate timer interrupt flag
+          bitOffset: 2
+          bitWidth: 1
+          access: read-write
+        CAPCNTRIFG:
+          description: Captivate conversion counter interrupt flag
+          bitOffset: 3
+          bitWidth: 1
+          access: read-write
+        CAPMAXIFG:
+          description: Captivate maximum count interrupt flag
+          bitOffset: 8
+          bitWidth: 1
+          access: read-write
+    CAPIV:
+      description: Captivate Interrupt Vector Register
+      addressOffset: 0x04
+      size: 16
+      fields:
+        CAPIV:
+          description: Captivate interrupt vector value. Reading clears the highest priority interrupt, writing clears all pending interrupts
+          bitOffset: 0
+          bitWidth: 16
+          access: read-only
+  # The enums of the registers above, as in the device file
+  CAPIE:
+    EOCIEN:
+      EOCIEN_0: [0, "Interrupt disabled"]
+      EOCIEN_1: [1, "Interrupt enabled"]
+    CAPDTCTIEN:
+      CAPDTCTIEN_0: [0, "Interrupt disabled"]
+      CAPDTCTIEN_1: [1, "Interrupt enabled"]
+    CAPTIEN:
+      CAPTIEN_0: [0, "Interrupt disabled"]
+      CAPTIEN_1: [1, "Interrupt enabled"]
+    CAPCNTRIEN:
+      CAPCNTRIEN_0: [0, "Interrupt disabled"]
+      CAPCNTRIEN_1: [1, "Interrupt enabled"]
+    CAPMAXIEN:
+      CAPMAXIEN_0: [0, "Interrupt disabled"]
+      CAPMAXIEN_1: [1, "Interrupt enabled"]
+  CAPIFG:
+    EOCIFG:
+      EOCIFG_0: [0, "No end of conversion has occurred"]
+      EOCIFG_1: [1, "End of conversion has occurred"]
+    CAPDTCTIFG:
+      CAPDTCTIFG_0: [0, "No interrupt pending"]
+      CAPDTCTIFG_1: [1, "Interrupt pending"]
+    CAPTIFG:
+      CAPTIFG_0: [0, "No interrupt pending"]
+      CAPTIFG_1: [1, "Interrupt pending"]
+    CAPCNTRIFG:
+      CAPCNTRIFG_0: [0, "No interrupt pending"]
+      CAPCNTRIFG_1: [1, "Interrupt pending"]
+    CAPMAXIFG:
+      CAPMAXIFG_0: [0, "Maximum count not reached"]
+      CAPMAXIFG_1: [1, "Maximum count reached"]
+  CAPIV:
+    CAPIV:
+      CAPIV_0: [0, "No interrupt pending"]
+      CAPIV_2: [2, "Interrupt source: End of conversion interrupt, Flag = EOCIFG"]
+      CAPIV_4: [4, "Interrupt source: Detection interrupt, Flag = CAPDTCTIFG"]
+      CAPIV_6: [6, "Interrupt source: Captivate Timer interrupt, Flag = CAPTIFG"]
+      CAPIV_8: [8, "Interrupt source: Captivate Counter interrupt, Flag = CAPCNTRIFG"]
+      CAPIV_10: [10, "Interrupt source: max count value reached, Flag = CAPMAXIFG"]

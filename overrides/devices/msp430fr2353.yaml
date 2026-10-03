@@ -6,3 +6,39 @@ _include:
    - "../peripherals/usci_b0_spi_ucbusy.yaml"
    - "../peripherals/usci_b1_spi_ucbusy.yaml"
    - "../peripherals/pmmctl_pmmpw_enum.yaml"
+   - "../peripherals/pmmctl0_h.yaml"
+   - "../peripherals/pmmctl0_svshe_enum.yaml"
+   - "../peripherals/frctl.yaml"
+   - "../peripherals/wdt_a_wdtpw_enum.yaml"
+   - "../peripherals/sys_frwppw_enum.yaml"
+   - "../peripherals/sys_tbxtrgsel.yaml"
+   - "../peripherals/sfr_sysflte.yaml"
+   - "../peripherals/crc.yaml"
+   - "../peripherals/cs_write_constraints.yaml"
+   - "../peripherals/icc.yaml"
+   - "../peripherals/tlv_enhanced_ref.yaml"
+   - "../peripherals/tlv_dco_tap_24mhz.yaml"
+   - "../peripherals/cs_fllrefdiv_enhanced.yaml"
+   - "../peripherals/adc_enums.yaml"
+   - "../peripherals/sys_irmsel_enum.yaml"
+
+# The device file has port J, the Capacitive Touch I/O and interrupt registers for ports P5 and P6,
+# which the data sheet doesn't list (SLASEC4D Table 6-33, peripheral file map, and Table 6-43, Port P5,
+# P6 registers)
+_delete:
+  - PJ
+  - CAPTIO
+
+P5:
+  _delete:
+    - P5IES
+    - P5IE
+    - P5IFG
+    - P5IV
+
+P6:
+  _delete:
+    - P6IES
+    - P6IE
+    - P6IFG
+    - P6IV

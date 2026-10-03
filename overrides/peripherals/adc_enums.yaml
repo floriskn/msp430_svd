@@ -1,0 +1,15 @@
+# Named variants for the conversion sequence mode (SLAU445I Table 21-1) and the data read-back format
+# (SLAU445I Table 21-5)
+ADC:
+  ADCCTL1:
+    ADCCONSEQ:
+      _replace_enum:
+        SINGLE: [0, "Single-channel, single-conversion: a single channel is converted once"]
+        SEQUENCE: [1, "Sequence-of-channels: a sequence of channels is converted once"]
+        REPEAT_SINGLE: [2, "Repeat-single-channel: a single channel is converted repeatedly"]
+        REPEAT_SEQUENCE: [3, "Repeat-sequence-of-channels: a sequence of channels is converted repeatedly"]
+  ADCCTL2:
+    ADCDF:
+      _replace_enum:
+        UNSIGNED: [0, "Binary unsigned. Theoretically, the analog input voltage -VREF results in 0000h, and the analog input voltage +VREF results in 03FFh."]
+        SIGNED: [1, "Signed binary (2s complement), left aligned. Theoretically, the analog input voltage -VREF results in 8000h, and the analog input voltage +VREF results in 7FC0h."]

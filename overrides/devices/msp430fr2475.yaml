@@ -6,6 +6,16 @@ _include:
   - "../peripherals/usci_b0_spi_ucbusy.yaml"
   - "../peripherals/usci_b1_spi_ucbusy.yaml"
   - "../peripherals/pmmctl_pmmpw_enum.yaml"
+  - "../peripherals/pmmctl0_h.yaml"
+  - "../peripherals/pmmctl0_svshe_enum.yaml"
+  - "../peripherals/frctl.yaml"
+  - "../peripherals/wdt_a_wdtpw_enum.yaml"
+  - "../peripherals/sys_frwppw_enum.yaml"
+  - "../peripherals/crc.yaml"
+  - "../peripherals/cs_write_constraints.yaml"
+  - "../peripherals/tlv_enhanced_ref.yaml"
+  - "../peripherals/adc_enums.yaml"
+  - "../peripherals/sys_irmsel_enum.yaml"
 
 SYS:
   SYSSNIV:
