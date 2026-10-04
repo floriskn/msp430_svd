@@ -25,6 +25,10 @@ _include:
    - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
    - "../peripherals/undocumented_fields.yaml"
    - "../peripherals/sac_saciv.yaml"
+   - "../peripherals/sys_iv_enums.yaml"
+   - "../peripherals/adc_adcres_12bit.yaml"
+   - "../peripherals/cs_dcorsel_enhanced.yaml"
+   - "../peripherals/pmm_refvsel_enhanced_ref.yaml"
 
 # The device file has port J, the Capacitive Touch I/O and interrupt registers for ports P5 and P6,
 # which the data sheet doesn't list (SLASEC4D Table 6-33, peripheral file map, and Table 6-43, Port P5,
@@ -54,13 +58,24 @@ P6:
     - P6IFG
     - P6IV
 
-# The PxIV interrupt vector fields cover the whole register (SLAU445I Table 8-5 to Table 8-8, p. 332 to
-# p. 333)
+# The PxIV interrupt vector fields cover the whole register, and their values have the same names on every
+# port (SLAU445I Table 8-5 to Table 8-8, p. 332 to p. 333)
 "P1,P2,P3,P4":
   "P?IV":
     _modify:
       "P?IV":
         bitWidth: 16
+    "P?IV":
+      _replace_enum:
+        NONE: [0x00, "No interrupt pending"]
+        IFG0: [0x02, "Interrupt Source: Port x.0 interrupt; Interrupt Flag: PxIFG.0; Interrupt Priority: Highest"]
+        IFG1: [0x04, "Interrupt Source: Port x.1 interrupt; Interrupt Flag: PxIFG.1"]
+        IFG2: [0x06, "Interrupt Source: Port x.2 interrupt; Interrupt Flag: PxIFG.2"]
+        IFG3: [0x08, "Interrupt Source: Port x.3 interrupt; Interrupt Flag: PxIFG.3"]
+        IFG4: [0x0A, "Interrupt Source: Port x.4 interrupt; Interrupt Flag: PxIFG.4"]
+        IFG5: [0x0C, "Interrupt Source: Port x.5 interrupt; Interrupt Flag: PxIFG.5"]
+        IFG6: [0x0E, "Interrupt Source: Port x.6 interrupt; Interrupt Flag: PxIFG.6"]
+        IFG7: [0x10, "Interrupt Source: Port x.7 interrupt; Interrupt Flag: PxIFG.7; Interrupt Priority: Lowest"]
 
 # SYNCSEL, the CapTIvate trigger selection, isn't in SYSCFG1 of the Smart Analog Combo devices (SLAU445I
 # Table 1-25, p. 76), and the data sheet doesn't name it
@@ -68,6 +83,16 @@ SYS:
   SYSCFG1:
     _delete:
       - SYNCSEL
+
+ADC:
+  ADCCTL1:
+    # The trigger sources of ADCSHS (ADC Trigger Signal Connections: SLASEC4D Table 6-22, p. 77)
+    ADCSHS:
+      _replace_enum:
+        SOFTWARE: [0, "ADCSC bit (software trigger)"]
+        RTC: [1, "RTC event"]
+        TIMER: [2, "TB1.1B"]
+        COMPARATOR: [3, "eCOMP0 COUT"]
 
 # The LPM3.5 switch is only on other devices (LPM5SM, LPM5SW: "Only available in the FR203x, FR211x, FR2100,
 # FR2000, FR231x, FR2433, FR2422, FR263x, FR253x, FR252x, and FR413x devices", SLAU445I Table 2-7), and

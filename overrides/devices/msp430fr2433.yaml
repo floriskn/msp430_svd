@@ -14,6 +14,10 @@ _include:
    - "../peripherals/cs_fll_enums.yaml"
    - "../peripherals/sys_sysctl_sysbslc_enums.yaml"
    - "../peripherals/pmm_lpm5_switch_enums.yaml"
+   - "../peripherals/sys_iv_enums.yaml"
+   - "../peripherals/adc_adcres_10bit.yaml"
+   - "../peripherals/cs_dcorsel_basic.yaml"
+   - "../peripherals/pmm_refvsel_basic_ref.yaml"
 
 # The SPI mode registers move into the eUSCI peripherals below, as on the other devices. PORT_1_2 has the
 # registers of P1 and P2 (from port_1_2_pxseln.yaml) again, with a field per bit, which the user's guide
@@ -283,6 +287,24 @@ P3:
             "RISING": [1, "Capture on rising edge"]
             "FALLING": [2, "Capture on falling edge"]
             "BOTH": [3, "Capture on both rising and falling edges"]
+    # The device file's TAxIV registers have no field (TAIV: SLAU445I Table 13-8, p. 388)
+    "TA?IV":
+        _add:
+            TAIV:
+                description: Timer_A interrupt vector value
+                bitOffset: 0
+                bitWidth: 16
+                access: read-only
+        TAIV:
+          _replace_enum:
+            NONE: [0x00, "No interrupt pending"]
+            TACCR1: [0x02, "Interrupt Source: Capture/compare 1; Interrupt Flag: TAxCCR1 CCIFG; Interrupt Priority: Highest"]
+            TACCR2: [0x04, "Interrupt Source: Capture/compare 2; Interrupt Flag: TAxCCR2 CCIFG"]
+            TACCR3: [0x06, "Interrupt Source: Capture/compare 3; Interrupt Flag: TAxCCR3 CCIFG"]
+            TACCR4: [0x08, "Interrupt Source: Capture/compare 4; Interrupt Flag: TAxCCR4 CCIFG"]
+            TACCR5: [0x0A, "Interrupt Source: Capture/compare 5; Interrupt Flag: TAxCCR5 CCIFG"]
+            TACCR6: [0x0C, "Interrupt Source: Capture/compare 6; Interrupt Flag: TAxCCR6 CCIFG"]
+            TAIFG: [0x0E, "Interrupt Source: Timer overflow; Interrupt Flag: TAxCTL TAIFG; Interrupt Priority: Lowest"]
     "TA?EX0":
         TAIDEX:
           _replace_enum:
@@ -296,13 +318,22 @@ P3:
             "/8": [7, "Divide by 8"]
 
 ADC:
-    ADCCTL2:
-        ADCPDIV:
+    ADCCTL1:
+        # The trigger sources of ADCSHS (ADC Trigger Signal Connections: SLASE59F Table 6-16, p. 53; 11b
+        # isn't connected)
+        ADCSHS:
           _replace_enum:
-            "/1": [0, "Predivide by 1"]
-            "/4": [1, "Predivide by 4"]
-            "/64": [2, "Predivide by 64"]
-            "ADCPDIV_3": [3, "Reserved"]
+            SOFTWARE: [0, "ADCSC bit (software trigger)"]
+            RTC: [1, "RTC event"]
+            TIMER: [2, "TA1.1B"]
+    # The device file's ADCIV register has no field (ADCIV: SLAU445I Table 21-15, p. 572)
+    ADCIV:
+        _add:
+            ADCIV:
+                description: ADC interrupt vector value
+                bitOffset: 0
+                bitWidth: 16
+                access: read-write
 
 # The registers of the device file's MPY_32, at their offsets from 04C0h (SLAU445I Table 16-7, p. 438)
 MPY32:
@@ -2047,8 +2078,31 @@ E_USCI_B0:
             "UCRXIFG": [2, "Interrupt Source: Data received; Interrupt Flag: UCRXIFG; Interrupt Priority: Highest"]
             "UCTXIFG": [4, "Interrupt Source: Transmit buffer empty; Interrupt Flag: UCTXIFG; Interrupt Priority: Lowest"]
 
-# Add missing password field
+# Add missing password field, and the fields of the interrupt vector registers, which the device file's
+# registers lack (SYSUNIV, SYSSNIV, SYSRSTIV: SLAU445I Table 1-20, p. 71; SLAU445I Table 1-21, p. 71;
+# SLAU445I Table 1-22, p. 72)
 SYS:
+    SYSUNIV:
+        _add:
+            SYSUNIV:
+                description: User NMI vector
+                bitOffset: 0
+                bitWidth: 16
+                access: read-only
+    SYSSNIV:
+        _add:
+            SYSSNIV:
+                description: System NMI vector
+                bitOffset: 0
+                bitWidth: 16
+                access: read-only
+    SYSRSTIV:
+        _add:
+            SYSRSTIV:
+                description: Reset interrupt vector
+                bitOffset: 0
+                bitWidth: 16
+                access: read-only
     SYSCFG0:
         _add:
             FRWPPW:
